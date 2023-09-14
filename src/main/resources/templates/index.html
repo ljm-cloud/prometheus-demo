@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+
+    <title>Demo Chat</title>
+
+    <!--<link href="bootstrap.css" rel="stylesheet">-->
+
+    <style>
+        body {
+            padding:20px;
+        }
+        #console {
+            height: 400px;
+            overflow: auto;
+        }
+        .username-msg {color: #ffa500;}
+        .connect-msg {color:green;}
+        .disconnect-msg {color:red;}
+        .send-msg {color:#888}
+    </style>
+
+
+    <script src="js/socket.io/socket.io.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="http://www.htmleaf.com/js/jquery/1.10.1/jquery.min.js"></script>
+
+    <script>
+
+        var userName = 'user' + Math.floor((Math.random()*1000)+1);
+
+
+        var socketUrl = "http://localhost:9092"
+        // socketUrl = "http://192.168.1.108/socketio"
+        // socketUrl = "https://emsd.smartoilets.net:22492"
+        // socketUrl = "https://emsd.smartoilets.net"
+        //  socketUrl = "http://192.168.3.157:9092"
+        //   socketUrl = "https://smartoilets.cn:22492"
+        //    socketUrl = "https://smartoilets.cn:22492/socket.io"
+        // socketUrl = "https://smartoilets.cn:22492"
+        // socketUrl = "http://192.168.3.228:9092"
+
+        var socket =  io.connect(socketUrl,{
+            query: {
+                //deviceId: 'cde'
+                //deviceId: 'ffffff1000010c95',
+                //deviceId:'fe8f94ff-006e-4dd7-bd6a-ae0fd1909ae3',
+                //deviceId: 'ae141000010da012',
+                // deviceId: 'ffffff10000138ea'
+                deviceId:'aaaaaa10000197g',
+                token:"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzbWFydG9pbGV0cy11c2VycyIsInN1YiI6InNtYXJ0b2lsZXRzLXVzZXJzIiwiaXNzIjoic21hcnRvaWxldHMiLCJ0eXBlIjoidXNlciIsInVzZXJJZCI6NDcsImV4cCI6MTYwMTAyNzQwNn0.nYSuVkheg2xPEYRcA0Z8ioJufzUEQIfihX_kaeOO-yQ"
+                // EIO:"3",
+                // transport:"websocket",
+                // sid:"2e47e1c7-9d12-4f5d-b067-31284f650bf9"
+            }
+        });
+
+
+        socket.on('connect', function() {
+            // var jsonObject = {siteName: "SEAPOINT",wcName:"SP-BJ","receive":true,roomType:"male",deviceId: "2be25ef28ef68ad4"}
+            var jsonObject = {siteName: "qdaeon",wcName:"a-3","receive":true,roomType:"male",deviceId: "2be25ef28ef68ad4"}
+            // jsonObject = {siteName: "hkcc",wcName:"GT3",roomType:"male",receive:true,deviceId: "ffffff10000196c1","roomTypes":["male"],"types":["outside"]}
+            // jsonObject = {deviceId:"ffffff10000196a5",siteName: "hkcc",wcName:"GT3",roomType:"male",receive:true,positionType:"Closestool",positionNum:1,deviceType:"doorV2"}
+            // jsonObject = {deviceId:"ffffff10000196a5",siteName: "ATAL-SM",wcName:"A1",roomType:"male",receive:true}
+            // jsonObject = {siteName: "hkcc",wcName:"ST4",roomType:"male",receive:true,deviceId: "2be25ef28ef68ad4","roomTypes":["male","female","disability","babyCareRoom"]}
+            // jsonObject = {siteName: "hkcc",wcName:"ST4",roomType:"female",receive:true,types:["outside","inside"],deviceId: "2be25ef28ef68ad4","roomTypes":["male","female","disability","babyCareRoom"]}
+            // jsonObject = {siteName: "seapoint",wcName:"SP-BJ",roomType:"male",receive:true,"roomTypes":["male","female","disability","babyCareRoom"]}
+            // jsonObject = {siteName: "hkcc",wcName:"ST4",roomType:"female",receive:true,"roomTypes":["male","female"]}
+            // var alertJsonObject = {siteName: "szaeon",wcName:"m-3",receive:true,"roomTypes":["male","female"]}
+            // jsonObject = {siteName: "qdaeon",wcName:"B-1",roomType:"male",receive:true,"roomTypes":["male","female"]}
+            //jsonObject = {siteName: "seapoint",wcName:"seapoint","receive":true,"roomType":"male","roomTypes":["male"]}
+            //jsonObject = {siteName: "StateGrid",wcName:"B2","receive":true,"roomType":"male","roomTypes":["male"]}
+            //     jsonObject = {siteName: "emsd",wcName:"5A","receive":true,"roomType":"male","roomTypes":["male"]}
+            // jsonObject = {siteName: "seapoint",wcName:"SP-BJ","receive":true,"roomType":"male","roomTypes":["female,male","disability","babyCareRoom"],deviceId:"bc:ba:c2:ed:8d:75"}
+
+            jsonObject = {siteName: "SH-RiverMall",wcName:"TRM-A1-FEMALE",roomType:"female",receive:true}
+            jsonObject = {siteName: "twsc",wcName:"4A",roomType:"female",receive:true}
+
+            // var analysisObject = {siteName: "hkcc",wcName:"GT3",roomType:"female",receive:true,deviceId: "aaaaaa10000197g","roomTypes":["male","female","disability","babyCareRoom"],
+            // "dataTypes":["aq","pq","pc","alert"],"period":"realTime","isStatistics":false
+            // };
+            //
+            // socket.emit('DATA_ANALYSIS',analysisObject)
+
+            socket.emit('CONFIG',jsonObject)
+
+            // var orderObject = {siteName:"BDIA",userId:"30"}
+            // socket.emit('WC_OCCUPY',jsonObject)
+            // socket.emit('SIGNAL_LOSS',jsonObject)
+            // // socket.emit('ORDER',orderObject)
+            //
+            socket.emit('WC_OCCUPY_DAY',jsonObject)
+            socket.emit('TRAFFIC_CURRENT_RADAR',jsonObject)
+            //
+            socket.emit('AQ_DAY',jsonObject)
+            //
+            socket.emit('AQ_CURRENT',jsonObject)
+            //
+            // socket.emit('DEVICE_DOWNLINK',jsonObject)
+            //
+            socket.emit('WC_OCCUPY',jsonObject)
+            //
+            socket.emit('COMMENT_SUMMARY',jsonObject)
+            // output('<span class="connect-msg">Client has connected to the server!</span>');
+            //
+            socket.emit('TRAFFIC_CURRENT',jsonObject)
+            //
+            // socket.emit('DEVICE_ALERT',jsonObject)
+            // socket.emit('heartbeat',jsonObject)
+            socket.emit('AQ_LEVEL',jsonObject)
+            //
+            //
+            //
+            socket.emit('PQ_CURRENT',jsonObject)
+            //
+            // //jsonObject = {deviceId:"ffffff10000138e2","receive":true}
+            //
+            // socket.emit('DEVICE_LOG',jsonObject)
+            socket.emit('TRAFFIC_DAY',jsonObject)
+            //
+            socket.emit('WATERFLOW_DAY',jsonObject)
+        });
+
+        socket.on('WC_OCCUPY_DAY',function (data) {
+            console.log("WC_OCCUPY_DAY|",data)
+            output(data);
+        })
+
+        socket.on('DATA_ANALYSIS',function (data) {
+            console.log("DATA_ANALYSIS|",data)
+            output(data);
+        })
+        socket.on('TRAFFIC_DAY',function (data) {
+            console.log("TRAFFIC_DAY|",data)
+            output(data);
+        })
+
+        socket.on('AQ_LEVEL',function (data) {
+            console.log("AQ_LEVEL|",data)
+            output(data);
+        })
+
+        socket.on('SIGNAL_LOSS',function (data) {
+            console.log("SIGNAL_LOSS|",data)
+            output(data);
+        })
+
+        socket.on('ORDER',function (data) {
+            console.log("ORDER|",data)
+            output(data);
+        })
+
+        socket.on('TRAFFIC_CURRENT_RADAR',function (data) {
+            console.log("TRAFFIC_CURRENT_RADAR|",data)
+            output(data);
+        })
+
+        socket.on('WATERFLOW_DAY',function (data) {
+            console.log("WATERFLOW_DAY|",data)
+            output(data);
+        })
+
+        socket.on('TRAFFIC_CURRENT',function(data) {
+            console.log("TRAFFIC_CURRENT|",data)
+            output(data);
+        });
+
+        socket.on('AQ_DAY',function(data) {
+            console.log("AQ_DAY|",data)
+            output(data);
+        });
+
+        socket.on('AQ_CURRENT',function (data) {
+            console.log("AQ_CURRENT|",data)
+            output(data);
+        });
+
+        socket.on('chatevent', function(data) {
+            output('<span class="username-msg">' + data.userName + ':</span> ' + data.message);
+        });
+
+        socket.on('PQ_CURRENT', function(data) {
+            console.log("pqCurrent|",data)
+            output(data);
+        });
+
+        socket.on('DEVICE_DOWNLINK',function(data) {
+            console.log("DEVICE_DOWNLINK|",data)
+            output(data);
+        });
+
+        socket.on('COMMENT_SUMMARY',function(data) {
+            console.log("DEVICE_DOWNLINK|",data)
+            output(data);
+        });
+
+        socket.on('DEVICE_LOG', function(data) {
+            console.log("deviceLog|",data)
+            output(data);
+        });
+
+        socket.on('WC_OCCUPY', function(data) {
+            console.log("wcOccupy|",data)
+            output( data);
+        });
+
+        socket.on('DEVICE_ALERT', function(data) {
+            console.log("deviceAlert:",data)
+            output( data);
+        });
+
+        socket.on('CONFIG', function(data) {
+            console.log("CONFIG:",data)
+            output( data);
+        });
+
+        socket.on('disconnect', function() {
+            output('<span class="disconnect-msg">The client has disconnected!</span>');
+        });
+
+        function sendDisconnect() {
+            socket.disconnect();
+        }
+
+        function sendMessage() {
+            // var message = $('#msg').val();
+            // $('#msg').val('');
+            //
+            // var jsonObject = {userName: userName,
+            //                   message: message};
+            // socket.emit('chatevent', jsonObject);
+            var jsonObject = {siteName: "qdaeon",wcName:"a-3","receive":false,roomType:"male",deviceId: "2be25ef28ef68ad4"}
+            socket.emit('AQ_DAY',jsonObject)
+            socket.emit('WC_OCCUPY',jsonObject)
+            socket.emit('AQ_CURRENT',jsonObject)
+            var jsonObject = {siteName: "qdaeon",wcName:"m-4","receive":true,roomType:"male",deviceId: "2be25ef28ef68ad4"}
+            socket.emit('AQ_DAY',jsonObject)
+            socket.emit('WC_OCCUPY',jsonObject)
+            socket.emit('AQ_CURRENT',jsonObject)
+        }
+
+        function output(message) {
+            var currentTime = "<span class='time'>" +  moment().format('HH:mm:ss.SSS') + "</span>";
+            var element = $("<div>" + currentTime + " " + message + "</div>");
+            $('#console').prepend(element);
+        }
+
+        $(document).keydown(function(e){
+            if(e.keyCode == 13) {
+                $('#send').click();
+            }
+        });
+    </script>
+</head>
+
+<body>
+
+<h1>Netty-socketio Demo Chat</h1>
+
+<br/>
+
+<div id="console" class="well">
+</div>
+
+<form class="well form-inline" onsubmit="return false;">
+    <input id="msg" class="input-xlarge" type="text" placeholder="Type something..."/>
+    <button type="button" onClick="sendMessage()" class="btn" id="send">Send</button>
+    <button type="button" onClick="sendDisconnect()" class="btn">Disconnect</button>
+</form>
+
+
+
+</body>
+
+</html>
