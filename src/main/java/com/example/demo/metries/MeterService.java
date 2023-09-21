@@ -75,6 +75,17 @@ public class MeterService {
         });
     }
 
+    public CompletableFuture<Void> clearTask(){
+        CompletableFuture<Void> completableFuture = new CompletableFuture<>();
+        ThreadPoolHelper.commonScheduledThreadPool.scheduleAtFixedRate(()->{
+            list.clear();
+            integers.clear();
+            map.clear();
+        },0,5,TimeUnit.MINUTES);
+        completableFuture.complete(null);
+        return completableFuture;
+    }
+
     public void timer(Runnable runnable){
         Timer timer = meterRegistry.timer("time_consume");
         timer.record(runnable);

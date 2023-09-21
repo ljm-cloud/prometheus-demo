@@ -26,6 +26,7 @@ public class ApplicationReadyEventListener implements ApplicationListener<Applic
         ApplicationContextRegister.getBean(ExecutorService.class).run();
         ApplicationContextRegister.getBean(MeterService.class).counter();
         ApplicationContextRegister.getBean(MeterService.class).gauge();
+        ApplicationContextRegister.getBean(MeterService.class).clearTask();
         log.info("ApplicationReadyEventListener.onApplicationEvent.end");
     }
 }
