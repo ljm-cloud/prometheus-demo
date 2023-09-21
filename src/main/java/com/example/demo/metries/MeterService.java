@@ -43,7 +43,7 @@ public class MeterService {
                     e.printStackTrace();
                 }
             }
-        });
+        },ThreadPoolHelper.meterExecutor);
     }
 
     public CompletableFuture<Void> gauge(){
@@ -70,7 +70,7 @@ public class MeterService {
                     e.printStackTrace();
                 }
             }
-        });
+        },ThreadPoolHelper.meterExecutor);
     }
 
     public CompletableFuture<Void> addCounter(){
@@ -134,6 +134,6 @@ public class MeterService {
                     throw new RuntimeException(e);
                 }
             }
-        }, ThreadPoolHelper.redisAddExecutor);
+        }, ThreadPoolHelper.meterExecutor);
     }
 }
