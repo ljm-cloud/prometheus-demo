@@ -26,14 +26,18 @@ public class RedisAddService {
     public CompletableFuture<Void> add1(){
         CompletableFuture<Void> completableFuture = new CompletableFuture<>();
         CompletableFuture.runAsync(()->{
-            String key = String.valueOf(RandomUtils.nextInt(1000000));
-            stringRedisTemplate1.opsForValue().set(key,
-                    "aaaaa",1, TimeUnit.MINUTES);
-            log.info("redis.add|key:{}",key);
+            while (true){
+                String key = String.valueOf(RandomUtils.nextInt(1000000));
+                stringRedisTemplate1.opsForValue().set(key,
+                        "aaaaa",1, TimeUnit.MINUTES);
+                log.info("redis.add|key:{}",key);
+            }
         }, ThreadPoolHelper.redisAddExecutor);
         CompletableFuture.runAsync(()->{
-            String key = String.valueOf(RandomUtils.nextInt(1000000));
-            stringRedisTemplate1.opsForValue().get(key);
+            while (true){
+                String key = String.valueOf(RandomUtils.nextInt(1000000));
+                stringRedisTemplate1.opsForValue().get(key);
+            }
         }, ThreadPoolHelper.redisAddExecutor);
         completableFuture.complete(null);
         return completableFuture;
