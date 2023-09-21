@@ -21,6 +21,6 @@ public class ThreadPoolHelper {
             0L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<Runnable>(), new NamedThreadFactory("meter"));
 
-    public static ScheduledExecutorService commonScheduledThreadPool = new ScheduledThreadPoolExecutor(Runtime.getRuntime().availableProcessors());
+//    public static ScheduledExecutorService commonScheduledThreadPool = new ScheduledThreadPoolExecutor(Runtime.getRuntime().availableProcessors());
 
 }
