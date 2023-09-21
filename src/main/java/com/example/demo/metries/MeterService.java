@@ -29,7 +29,7 @@ public class MeterService {
 
     @Autowired
     private MeterRegistry meterRegistry;
-    private Integer integer = 0;
+//    private Integer integer = 0;
     public List<String> list = new ArrayList<>();
     List<Integer> integers;
     private Map<String,String> map;

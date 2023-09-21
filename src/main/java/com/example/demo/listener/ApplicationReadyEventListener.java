@@ -1,6 +1,9 @@
 package com.example.demo.listener;
 
 import com.example.demo.application.ApplicationContextRegister;
+import com.example.demo.cache.LocalCacheService;
+import com.example.demo.metries.ExecutorService;
+import com.example.demo.metries.MeterService;
 import com.example.demo.redis.RedisAddService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -28,6 +31,10 @@ public class ApplicationReadyEventListener implements ApplicationListener<Applic
         });
         ApplicationContextRegister.getBean(RedisAddService.class).add1();
         ApplicationContextRegister.getBean(RedisAddService.class).add2();
+        ApplicationContextRegister.getBean(LocalCacheService.class).flushCache();
+        ApplicationContextRegister.getBean(ExecutorService.class).run();
+        ApplicationContextRegister.getBean(MeterService.class).counter();
+        ApplicationContextRegister.getBean(MeterService.class).gauge();
         log.info("ApplicationReadyEventListener.onApplicationEvent.end");
     }
 }
