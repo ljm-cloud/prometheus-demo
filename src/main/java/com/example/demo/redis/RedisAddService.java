@@ -24,15 +24,23 @@ public class RedisAddService {
     private StringRedisTemplate stringRedisTemplate2;
 
     public CompletableFuture<Void> add1(){
-        return CompletableFuture.runAsync(()->{
+        CompletableFuture<Void> completableFuture = new CompletableFuture<>();
+        CompletableFuture.runAsync(()->{
             String key = String.valueOf(RandomUtils.nextInt(1000000));
             stringRedisTemplate1.opsForValue().set(key,
                     "aaaaa",1, TimeUnit.MINUTES);
             log.info("redis.add|key:{}",key);
         }, ThreadPoolHelper.redisAddExecutor);
+        CompletableFuture.runAsync(()->{
+            String key = String.valueOf(RandomUtils.nextInt(1000000));
+            stringRedisTemplate1.opsForValue().get(key);
+        }, ThreadPoolHelper.redisAddExecutor);
+        completableFuture.complete(null);
+        return completableFuture;
     }
     public CompletableFuture<Void> add2(){
-        return CompletableFuture.runAsync(()->{
+        CompletableFuture<Void> completableFuture = new CompletableFuture<>();
+        CompletableFuture.runAsync(()->{
             int i = 0;
             while (true){
                 stringRedisTemplate2.opsForZSet().add(String.valueOf(i),"",System.currentTimeMillis());
@@ -40,5 +48,19 @@ public class RedisAddService {
                 i ++;
             }
         }, ThreadPoolHelper.redisAddExecutor);
+        CompletableFuture.runAsync(()->{
+            int i = 0;
+            while (true){
+                stringRedisTemplate2.delete(String.valueOf(i));
+                i++;
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    log.error("RedisAddService.add2.sleep.error",e);
+                }
+            }
+        }, ThreadPoolHelper.redisAddExecutor);
+        completableFuture.complete(null);
+        return completableFuture;
     }
 }
