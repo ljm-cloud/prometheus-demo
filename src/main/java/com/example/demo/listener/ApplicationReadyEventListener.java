@@ -10,8 +10,6 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.CompletableFuture;
-
 /**
  * @author ljm
  * @date 2023/9/1 15:17
@@ -22,13 +20,6 @@ public class ApplicationReadyEventListener implements ApplicationListener<Applic
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         log.info("ApplicationReadyEventListener.onApplicationEvent.start");
-        CompletableFuture.runAsync(()->{
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        });
         ApplicationContextRegister.getBean(RedisAddService.class).add1();
         ApplicationContextRegister.getBean(RedisAddService.class).add2();
         ApplicationContextRegister.getBean(LocalCacheService.class).flushCache();
