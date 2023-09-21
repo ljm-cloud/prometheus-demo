@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
@@ -19,25 +20,25 @@ public class RedisConfiguration {
     private Environment env;
 
     @Bean
-    public StringRedisTemplate stringRedisTemplate1(RedisConnectionFactory connectionFactory1) {
-        StringRedisTemplate redisTemplate = new StringRedisTemplate();
-        redisTemplate.setConnectionFactory(connectionFactory1);
-        return redisTemplate;
+    public StringRedisTemplate redisTemplate(RedisConnectionFactory connectionFactory1) {
+        StringRedisTemplate redisTemplate1 = new StringRedisTemplate();
+        redisTemplate1.setConnectionFactory(connectionFactory1);
+        return redisTemplate1;
     }
 
     @Bean
-    public StringRedisTemplate stringRedisTemplate2(RedisConnectionFactory connectionFactory2) {
+    public StringRedisTemplate redisTemplate2(RedisConnectionFactory connectionFactory2) {
         StringRedisTemplate redisTemplate2 = new StringRedisTemplate();
         redisTemplate2.setConnectionFactory(connectionFactory2);
         return redisTemplate2;
     }
 
     @Bean
-    public RedisConnectionFactory connectionFactory() {
+    public RedisConnectionFactory connectionFactory1() {
         LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory();
-        connectionFactory.setHostName(env.getProperty("spring.redis.host"));
-        connectionFactory.setPort(Integer.parseInt(env.getProperty("spring.redis.port")));
-        connectionFactory.setPassword(env.getProperty("spring.redis.password"));
+        connectionFactory.setHostName(env.getProperty("spring.redis1.host"));
+        connectionFactory.setPort(Integer.parseInt(env.getProperty("spring.redis1.port")));
+        connectionFactory.setPassword(env.getProperty("spring.redis1.password"));
         return connectionFactory;
     }
 

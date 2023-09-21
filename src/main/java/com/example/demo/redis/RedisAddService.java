@@ -6,7 +6,6 @@ import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -19,16 +18,16 @@ import java.util.concurrent.TimeUnit;
 public class RedisAddService {
 
     @Autowired
-    private StringRedisTemplate stringRedisTemplate1;
+    private StringRedisTemplate redisTemplate;
     @Autowired
-    private StringRedisTemplate stringRedisTemplate2;
+    private StringRedisTemplate redisTemplate2;
 
     public CompletableFuture<Void> add1(){
         CompletableFuture<Void> completableFuture = new CompletableFuture<>();
         CompletableFuture.runAsync(()->{
             while (true){
                 String key = String.valueOf(RandomUtils.nextInt(1000000));
-                stringRedisTemplate1.opsForValue().set(key,
+                redisTemplate.opsForValue().set(key,
                         "aaaaa",1, TimeUnit.MINUTES);
                 log.info("redis.add|key:{}",key);
             }
@@ -36,7 +35,7 @@ public class RedisAddService {
         CompletableFuture.runAsync(()->{
             while (true){
                 String key = String.valueOf(RandomUtils.nextInt(1000000));
-                stringRedisTemplate1.opsForValue().get(key);
+                redisTemplate.opsForValue().get(key);
             }
         }, ThreadPoolHelper.redisAddExecutor);
         completableFuture.complete(null);
@@ -47,15 +46,15 @@ public class RedisAddService {
         CompletableFuture.runAsync(()->{
             int i = 0;
             while (true){
-                stringRedisTemplate2.opsForZSet().add(String.valueOf(i),"",System.currentTimeMillis());
-                stringRedisTemplate2.expire(String.valueOf(i),30,TimeUnit.SECONDS);
+                redisTemplate2.opsForZSet().add(String.valueOf(i),"",System.currentTimeMillis());
+                redisTemplate2.expire(String.valueOf(i),30,TimeUnit.SECONDS);
                 i ++;
             }
         }, ThreadPoolHelper.redisAddExecutor);
         CompletableFuture.runAsync(()->{
             int i = 0;
             while (true){
-                stringRedisTemplate2.delete(String.valueOf(i));
+                redisTemplate2.delete(String.valueOf(i));
                 i++;
                 try {
                     Thread.sleep(10000);
