@@ -45,7 +45,7 @@ public class MeterService {
                     e.printStackTrace();
                 }
             }
-        },ThreadPoolHelper.meterExecutor);
+        });
     }
 
     public CompletableFuture<Void> gauge(){
@@ -72,7 +72,7 @@ public class MeterService {
                     e.printStackTrace();
                 }
             }
-        },ThreadPoolHelper.meterExecutor);
+        });
     }
 
     public void timer(Runnable runnable){
