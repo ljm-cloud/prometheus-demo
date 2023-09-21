@@ -27,7 +27,7 @@ public class RedisAddService {
         return CompletableFuture.runAsync(()->{
             String key = String.valueOf(RandomUtils.nextInt(1000000));
             stringRedisTemplate1.opsForValue().set(key,
-                    "aaaaa",1, TimeUnit.HOURS);
+                    "aaaaa",1, TimeUnit.MINUTES);
             log.info("redis.add|key:{}",key);
         }, ThreadPoolHelper.redisAddExecutor);
     }
@@ -36,6 +36,7 @@ public class RedisAddService {
             int i = 0;
             while (true){
                 stringRedisTemplate2.opsForZSet().add(String.valueOf(i),"",System.currentTimeMillis());
+                stringRedisTemplate2.expire(String.valueOf(i),30,TimeUnit.SECONDS);
                 i ++;
             }
         }, ThreadPoolHelper.redisAddExecutor);
