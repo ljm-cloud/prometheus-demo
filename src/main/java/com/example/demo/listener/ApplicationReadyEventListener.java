@@ -27,13 +27,7 @@ public class ApplicationReadyEventListener implements ApplicationListener<Applic
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-//            while (true){
-//                ApplicationContextRegister.getBean(RedisAddService.class).add();
-//            }
-            ApplicationContextRegister.getBean(MeterService.class).addCounter();
         });
-//        ApplicationContextRegister.getBean(ReRunService.class).count();
-//        ApplicationContextRegister.getBean(DoService.class).reAdd();
         log.info("ApplicationReadyEventListener.onApplicationEvent.end");
     }
 }

@@ -73,7 +73,7 @@ public class MeterService {
         },ThreadPoolHelper.meterExecutor);
     }
 
-    public CompletableFuture<Void> addCounter(){
+/*    public CompletableFuture<Void> addCounter(){
         meterRegistry.gauge("list_size_gauge", Collections.emptyList(),list, List::size);
         integers = meterRegistry.gaugeCollectionSize("collection_size_gauge", Tags.empty(),new ArrayList<Integer>());
         Timer timer = meterRegistry.timer("time_consume");
@@ -135,5 +135,5 @@ public class MeterService {
                 }
             }
         }, ThreadPoolHelper.meterExecutor);
-    }
+    }*/
 }
