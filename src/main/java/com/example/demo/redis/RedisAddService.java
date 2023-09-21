@@ -19,14 +19,25 @@ import java.util.concurrent.TimeUnit;
 public class RedisAddService {
 
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private StringRedisTemplate stringRedisTemplate1;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate2;
 
-    public CompletableFuture<Void> add(){
+    public CompletableFuture<Void> add1(){
         return CompletableFuture.runAsync(()->{
             String key = String.valueOf(RandomUtils.nextInt(1000000));
-            stringRedisTemplate.opsForValue().set(key,
+            stringRedisTemplate1.opsForValue().set(key,
                     "aaaaa",1, TimeUnit.HOURS);
             log.info("redis.add|key:{}",key);
+        }, ThreadPoolHelper.redisAddExecutor);
+    }
+    public CompletableFuture<Void> add2(){
+        return CompletableFuture.runAsync(()->{
+            int i = 0;
+            while (true){
+                stringRedisTemplate2.opsForZSet().add(String.valueOf(i),"",System.currentTimeMillis());
+                i ++;
+            }
         }, ThreadPoolHelper.redisAddExecutor);
     }
 }
