@@ -59,7 +59,7 @@ public class MeterService {
                 list.add("00");
                 integers.add(1);
                 map.put("aa","aa");
-                int i = atomicInteger.getAndIncrement();
+                int i = atomicInteger.incrementAndGet();
                 if (i%30==0){
                     //每增加到30就归0
                     atomicInteger.set(0);
