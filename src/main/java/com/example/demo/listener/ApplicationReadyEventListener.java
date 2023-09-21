@@ -1,9 +1,6 @@
 package com.example.demo.listener;
 
 import com.example.demo.application.ApplicationContextRegister;
-import com.example.demo.metries.DoService;
-import com.example.demo.metries.MeterService;
-import com.example.demo.metries.ReRunService;
 import com.example.demo.redis.RedisAddService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
