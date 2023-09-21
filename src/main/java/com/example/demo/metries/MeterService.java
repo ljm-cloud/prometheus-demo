@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -80,6 +81,11 @@ public class MeterService {
 
     public void timeSample(Timer.Sample sample){
         sample.stop(meterRegistry.timer("time_consume_sample"));
+    }
+
+    public void timerUnit(long time, TimeUnit timeUnit){
+        Timer timer = meterRegistry.timer("time_unit");
+        timer.record(time,timeUnit);
     }
 
 /*    public CompletableFuture<Void> addCounter(){
