@@ -17,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Supplier;
 
 /**
  * @author ljm
@@ -77,6 +78,11 @@ public class MeterService {
     public void timer(Runnable runnable){
         Timer timer = meterRegistry.timer("time_consume");
         timer.record(runnable);
+    }
+
+    public <T> T timer(Supplier<T> supplier){
+        Timer timer = meterRegistry.timer("time_consume");
+        return timer.record(supplier);
     }
 
     public void timeSample(Timer.Sample sample){
