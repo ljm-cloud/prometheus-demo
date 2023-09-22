@@ -29,7 +29,7 @@ public class MeterService {
 
     @Autowired
     private MeterRegistry meterRegistry;
-//    private Integer integer = 0;
+    private Integer integer = 0;
     public List<String> list = new ArrayList<>();
     List<Integer> integers;
     private Map<String,String> map;
@@ -65,7 +65,11 @@ public class MeterService {
                     atomicInteger.set(0);
                 }
                 //测试每次传Integer数，gauge会不会变化
-                meterRegistry.gauge("random_int_gauge", RandomUtils.nextInt(1000));
+                if (integer%2==0){
+                    Integer d  = meterRegistry.gauge("random_int_gauge",2);
+                }else {
+                    Integer d  = meterRegistry.gauge("random_int_gauge",3);
+                }
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
