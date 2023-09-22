@@ -46,7 +46,7 @@ public class NamedThreadFactory implements ThreadFactory {
     /**
      * 线程名第一前缀
      */
-    private final String               firstPrefix = "smartoilets-";
+    private final String               firstPrefix = "prometheus-demo-";
 
     /**
      * 构造函数，默认非守护线程
